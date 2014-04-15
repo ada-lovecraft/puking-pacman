@@ -4,10 +4,10 @@ function Menu() {}
 
 var Particle = require('../prefabs/particle');
 var emitter;
-var peeSprite;
-var peeLevel;
-var peeWaves;
-var peeTimer;
+var pukeSprite;
+var pukeLevel;
+var pukeWaves;
+var pukeTimer;
 var waveBMD;
 var pacmanBMD;
 var pacman;
@@ -23,15 +23,15 @@ Menu.prototype = {
     pacman.anchor.setTo(0.5, 0.5);
     pacman.angle = 22;
 
-    emitter = this.game.add.emitter(100, 100, 100);
+    emitter = this.game.add.emitter(110, 103, 100);
     emitter.particleClass = Particle;
     emitter.makeParticles('yellowBlock',0,1000, true, true);
-    
+
     emitter.lifespan = 0;
     emitter.setAlpha(0.3, 1);
     emitter.setScale(1, 2, 1, 2, 6000, Phaser.Easing.Quintic.Out);
     emitter.setXSpeed(50,100);
-    emitter.setYSpeed(0,0);
+    emitter.setYSpeed(0,20);
     emitter.enableBody = true;
 
     emitter.particleDrag = new Phaser.Point(25,0);
@@ -39,17 +39,17 @@ Menu.prototype = {
     emitter.setAll('body.bounce.x', 1);
     emitter.setAll('body.bounce.y',1);
     emitter.start(false, 0,50);
-    peeSprite = this.game.add.sprite(0, this.game.height + 4, this.game.cache.getBitmapData('yellowBlock'));
-    peeSprite.anchor.setTo(0,1);
+    pukeSprite = this.game.add.sprite(0, this.game.height + 4, this.game.cache.getBitmapData('yellowBlock'));
+    pukeSprite.anchor.setTo(0,1);
 
-    peeLevel = this.game.add.sprite(0, this.game.height, this.game.cache.getBitmapData('yellowBlock'));
-    this.game.physics.arcade.enableBody(peeLevel);
-    peeLevel.body.immovable = true;
+    pukeLevel = this.game.add.sprite(0, this.game.height, this.game.cache.getBitmapData('yellowBlock'));
+    this.game.physics.arcade.enableBody(pukeLevel);
+    pukeLevel.body.immovable = true;
 
 
-    peeSprite.width = this.game.width;
-    peeLevel.width = this.game.width;
-    this.game.time.events.loop(Phaser.Timer.SECOND, this.updatePeeLevel, this);
+    pukeSprite.width = this.game.width;
+    pukeLevel.width = this.game.width;
+    this.game.time.events.loop(Phaser.Timer.SECOND, this.updatepukeLevel, this);
 
     waveBMD = this.game.add.bitmapData(this.game.width * 2, 400);
     this.createWaves();
@@ -60,13 +60,13 @@ Menu.prototype = {
 
 
   },
-  updatePeeLevel: function() {
-    var totalPeeLevel = 0;
-    var totalPees = 0;
-    var avgPeeLevel = 0;
+  updatepukeLevel: function() {
+    var totalpukeLevel = 0;
+    var totalpukes = 0;
+    var avgpukeLevel = 0;
 
     emitter.forEachExists(function(particle) {
-      if(particle.y >= peeLevel.y) {
+      if(particle.y >= pukeLevel.y) {
         particle.kill();
         particle.collided = false;
       }
@@ -74,27 +74,27 @@ Menu.prototype = {
 
     emitter.forEach(function(particle) {
       if(particle.collided && particle.exists) { 
-        totalPeeLevel += particle.world.y;
-        totalPees++;
+        totalpukeLevel += particle.world.y;
+        totalpukes++;
       }
     });
-    if(totalPees >= 10 ) {
-      avgPeeLevel = totalPeeLevel / totalPees;
+    if(totalpukes >= 10 ) {
+      avgpukeLevel = totalpukeLevel / totalpukes;
       
-      this.game.add.tween(peeSprite).to({height: peeSprite.y - avgPeeLevel}, 500, Phaser.Easing.Linear.BounceInOut, true);
-      this.game.add.tween(waveSprite).to({y: avgPeeLevel - 30}, 500, Phaser.Easing.Linear.BounceInOut, true);
-      peeLevel.y = avgPeeLevel + 5;
+      this.game.add.tween(pukeSprite).to({height: pukeSprite.y - avgpukeLevel}, 500, Phaser.Easing.Linear.BounceInOut, true);
+      this.game.add.tween(waveSprite).to({y: avgpukeLevel - 30}, 500, Phaser.Easing.Linear.BounceInOut, true);
+      pukeLevel.y = avgpukeLevel + 5;
       
     }
   },
-  peeCollider: function(particle) {
-    if(particle.y >= peeLevel.y * 0.9) {
+  pukeCollider: function(particle) {
+    if(particle.y >= pukeLevel.y * 0.9) {
       particle.collided = true;
     }
   },
   update: function() {
-    this.game.physics.arcade.collide(emitter, emitter, null,this.peeCollider, this);
-    this.game.physics.arcade.collide(emitter, peeLevel);
+    this.game.physics.arcade.collide(emitter, emitter, null,this.pukeCollider, this);
+    this.game.physics.arcade.collide(emitter, pukeLevel);
   },
 
   createPacman: function() {
@@ -118,8 +118,8 @@ Menu.prototype = {
     var ox = 0, oy = 20;
     var t_min = 0, t_max = 10*Math.PI;
     var scale = 10, step = 500, inc = t_max/step, x, y;
-    ctx.strokeStyle = '#e4c915';
-    ctx.fillStyle = '#e4c915';
+    ctx.strokeStyle = '#6a8a5b';
+    ctx.fillStyle = '#6a8a5b';
     ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.moveTo(ox, oy);

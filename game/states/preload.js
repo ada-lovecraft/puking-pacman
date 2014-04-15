@@ -15,7 +15,7 @@ Preload.prototype = {
     this.load.image('yeoman', 'assets/yeoman-logo.png');
 
     var bmd = this.game.add.bitmapData(4,4);
-    bmd.ctx.fillStyle = '#e4c915';
+    bmd.ctx.fillStyle = '#6a8a5b';
     bmd.ctx.beginPath();
     bmd.ctx.fillRect(0, 0, 4, 4);
     bmd.ctx.closePath();
