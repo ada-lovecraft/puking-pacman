@@ -100,9 +100,16 @@ Menu.prototype = {
 
   },
   create: function() {
+    pacmanBMD = this.game.add.bitmapData(100, 100);
+    this.createPacman();
+    pacman = this.game.add.sprite(100, 100, pacmanBMD);
+    pacman.anchor.setTo(0.5, 0.5);
+    pacman.angle = 22;
+
     emitter = this.game.add.emitter(100, 100, 100);
     emitter.particleClass = Particle;
     emitter.makeParticles('yellowBlock',0,1000, true, true);
+    
     emitter.lifespan = 0;
     emitter.setAlpha(0.3, 1);
     emitter.setScale(1, 2, 1, 2, 6000, Phaser.Easing.Quintic.Out);
@@ -132,11 +139,7 @@ Menu.prototype = {
     waveSprite = this.game.add.tileSprite(0, this.game.height, this.game.width, 400, waveBMD);
     waveSprite.autoScroll(-100, 0);
 
-    pacmanBMD = this.game.add.bitmapData(100, 100);
-    this.createPacman();
-    pacman = this.game.add.sprite(100, 100, pacmanBMD);
-    pacman.anchor.setTo(0.5, 0.5);
-    pacman.angle = 22;
+
 
 
   },
